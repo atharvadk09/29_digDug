@@ -10,18 +10,21 @@ MOVE_DELAY, ENEMY_DELAY, PUMP_RANGE, DEFLATE_AFTER = 0.11, 0.35, 3, 1.5
 
 
 def dirt_color(row):
-    """Return an (r, g, b) colour for dirt in the given row, or None for the default gradient."""
-    pass
+    if row <= 4:
+        return (170, 110, 60)
+    elif row <= 8:
+        return (150, 90, 50)
+    else:
+        return (120, 70, 40)
 
 
 def on_enemy_popped(enemy, score):
-    """Called when an enemy is popped; add particles, bonus points, or a colour flash here."""
-    pass
+    print(f"Enemy popped! Score: {score}")
 
 
 def enemy_speed_multiplier(level):
-    """Return a speed multiplier for enemies at the given level, or None for the default speed."""
-    pass
+    return 1 + 0.1 * (level - 1)
+    
 
 
 def in_bounds(r, c):
@@ -31,7 +34,7 @@ def in_bounds(r, c):
 def bfs_path(grid, start, goal):
     queue, parents = deque([start]), {start: None}
     while queue:
-        cell = queue.pop()
+        cell = queue.popleft()
         if cell == goal:
             break
         for dr, dc in DIRS.values():
